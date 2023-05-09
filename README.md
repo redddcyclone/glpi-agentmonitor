@@ -1,5 +1,7 @@
 # GLPI Agent Monitor
 
+[![GLPI Agent Monitor CI](https://github.com/redddcyclone/glpi-agentmonitor/actions/workflows/glpi-agentmonitor-ci.yml/badge.svg)](https://github.com/redddcyclone/glpi-agentmonitor/actions/workflows/glpi-agentmonitor-ci.yml)
+
 ## Description
 
 GLPI Agent Monitor is a simple monitoring tool for GLPI Agent on Windows.
