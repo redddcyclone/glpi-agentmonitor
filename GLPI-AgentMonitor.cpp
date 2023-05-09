@@ -27,7 +27,6 @@
  *  @author(s) Leonardo Bernardes (redddcyclone)
  *  @license   GNU GPL version 2 or (at your option) any later version
  *             http://www.gnu.org/licenses/old-licenses/gpl-2.0-standalone.html
- *  @link      http://www.glpi-project.org
  *  @since     2023
  * 
  *  ---------------------------------------------------------------------------
