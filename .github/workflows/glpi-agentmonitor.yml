@@ -1,0 +1,38 @@
+name: Compile GLPI-AgentMonitor
+
+on:
+  push:
+  pull_request:
+    branches:
+      - develop
+      - glpi-agentmonitor
+
+jobs:
+  windows-compile:
+    runs-on: windows-latest
+    
+    strategy:
+      matrix:
+        arch: [ x64, x86 ]
+    
+    steps:
+    - uses: actions/checkout@v3
+    - uses: ilammy/msvc-dev-cmd@v1.12.1
+      with:
+        arch: ${{ matrix.arch }}
+    - name: Compile and link
+      run: |
+        msbuild contrib\windows\GLPI-AgentMonitor\GLPI-AgentMonitor.vcxproj -p:Configuration=Release -p:Platform=${{ matrix.arch }} -p:OutDir=Release\ -p:IntermediateOutputPath=Release\ -v:detailed -fl -flp:logfile=contrib\windows\GLPI-AgentMonitor\Release\msbuild.log
+    - name: Upload built artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GLPI-AgentMonitor-Build-${{ matrix.arch }}
+        path: |
+          contrib\windows\GLPI-AgentMonitor\Release\*.exe
+    - name: Upload build logs artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: GLPI-AgentMonitor-BuildLogs-${{ matrix.arch }}
+        path: |
+          contrib\windows\GLPI-AgentMonitor\Release\msbuild.log
+          contrib\windows\GLPI-AgentMonitor\Release\*.tlog

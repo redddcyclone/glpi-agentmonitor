@@ -1,0 +1,6 @@
+GLPI-AgentMonitor.aps
+Release
+*.vcxproj.user
+.vs
+Thumbs.db
+Debug
