@@ -1,4 +1,4 @@
-name: Compile GLPI-AgentMonitor
+name: GLPI Agent Monitor CI
 
 on:
   push:
