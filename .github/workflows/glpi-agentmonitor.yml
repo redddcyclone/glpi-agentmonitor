@@ -22,17 +22,17 @@ jobs:
         arch: ${{ matrix.arch }}
     - name: Compile and link
       run: |
-        msbuild contrib\windows\GLPI-AgentMonitor\GLPI-AgentMonitor.vcxproj -p:Configuration=Release -p:Platform=${{ matrix.arch }} -p:OutDir=Release\ -p:IntermediateOutputPath=Release\ -v:detailed -fl -flp:logfile=contrib\windows\GLPI-AgentMonitor\Release\msbuild.log
+        msbuild GLPI-AgentMonitor.vcxproj -p:Configuration=Release -p:Platform=${{ matrix.arch }} -p:OutDir=Release\ -p:IntermediateOutputPath=Release\ -v:detailed -fl -flp:logfile=Release\msbuild.log
     - name: Upload built artifact
       uses: actions/upload-artifact@v3
       with:
         name: GLPI-AgentMonitor-Build-${{ matrix.arch }}
         path: |
-          contrib\windows\GLPI-AgentMonitor\Release\*.exe
+          Release\*.exe
     - name: Upload build logs artifact
       uses: actions/upload-artifact@v3
       with:
         name: GLPI-AgentMonitor-BuildLogs-${{ matrix.arch }}
         path: |
-          contrib\windows\GLPI-AgentMonitor\Release\msbuild.log
-          contrib\windows\GLPI-AgentMonitor\Release\*.tlog
+          Release\msbuild.log
+          Release\*.tlog
