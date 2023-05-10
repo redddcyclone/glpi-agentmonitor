@@ -25,10 +25,6 @@ You can also force an inventory by right-clicking the system tray icon and
 clicking "Force inventory", or by clicking the "Force inventory" button
 on the tool window.
 
-## Requisites
-
- - Visual C++ redistributable 2022.
-
 ## License
 
 [![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html)
