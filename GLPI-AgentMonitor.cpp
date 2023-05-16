@@ -58,7 +58,6 @@
 #include <gdiplus.h>
 #include "framework.h"
 #include "resource.h"
-#include "version.h"
 
 
 //-[GLOBALS AND OTHERS]--------------------------------------------------------
@@ -433,20 +432,17 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 {
     hInst = hInstance;
 
-    // Get app version without the last number
-    WCHAR szVer[16];
-    INT iDots = 0;
-    szVer[0] = 'v';
-    for (INT i = 0; i < strlen(VI_VERSIONSTRING); i++) {
-        if (VI_VERSIONSTRING[i] == '.')
-            iDots++;
-        if (iDots < 3)
-            szVer[i + 1] = VI_VERSIONSTRING[i];
-        else {
-            szVer[i + 1] = '\0';
-            break;
-        }
-    }
+    // Read app version
+    WCHAR szFileName[MAX_PATH];
+    GetModuleFileName(NULL, szFileName, MAX_PATH);
+    DWORD dwSize = GetFileVersionInfoSize(szFileName, 0);
+    VS_FIXEDFILEINFO* lpFfi = NULL;
+    UINT uFfiLen = 0;
+    WCHAR* szVerBuffer = new WCHAR[dwSize];
+    GetFileVersionInfo(szFileName, 0, dwSize, szVerBuffer);
+    VerQueryValue(szVerBuffer, L"\\", (LPVOID*)&lpFfi, &uFfiLen);
+    DWORD dwVerMaj = HIWORD(lpFfi->dwFileVersionMS);
+    DWORD dwVerMin = LOWORD(lpFfi->dwFileVersionMS);
 
     GdiplusStartup(&gdiplusToken, &gdiplusStartupInput, NULL);
 
@@ -482,7 +478,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
 
     // Create WinHTTP handles
     WCHAR szUserAgent[64];
-    wsprintf(szUserAgent, L"%s/%s", USERAGENT_NAME, szVer);
+    wsprintf(szUserAgent, L"%s/%d.%d", USERAGENT_NAME, dwVerMaj, dwVerMin);
 
     hSession = WinHttpOpen(szUserAgent, WINHTTP_ACCESS_TYPE_NO_PROXY, WINHTTP_NO_PROXY_NAME, WINHTTP_NO_PROXY_BYPASS, NULL);
     hConn = WinHttpConnect(hSession, L"127.0.0.1", (INTERNET_PORT)dwPort, 0);
@@ -513,6 +509,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance
     LoadPNGAsBitmap(hInst, MAKEINTRESOURCE(IDB_LOGO), L"PNG", &hLogo);
     SendMessage(GetDlgItem(hWnd, IDC_PCLOGO), STM_SETIMAGE, IMAGE_BITMAP, (LPARAM)hLogo);
 
+    WCHAR szVer[20];
+    wsprintf(szVer, L"v%d.%d", dwVerMaj, dwVerMin);
     SetDlgItemText(hWnd, IDC_VERSION, szVer);
 
     LoadString(hInst, IDS_APP_TITLE, szBuffer, dwBufferLen);
