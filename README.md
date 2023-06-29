@@ -44,7 +44,7 @@ If you want to translate the project to your language, feel free to fork the [de
 
 ## Screenshots
 
-[![Screenshot](screenshot.png)](aaa)
+![Screenshot](screenshot.png)
 
 ## License
 
