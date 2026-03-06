@@ -11,6 +11,7 @@ Future version
   new elevated process is killed and the previous Monitor process resumes
   execution (#39)
 
+* Updated french translation with missing screenshot control setting resource text
 
 1.4.2
 
